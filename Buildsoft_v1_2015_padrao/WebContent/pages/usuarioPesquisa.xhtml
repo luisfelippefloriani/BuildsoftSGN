@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template = "/templates/modeloGeral.xhtml">
+		<ui:define name="conteudo">
+		<f:metadata>
+				<f:event listener="#{usuarioBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+			<h:form>
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Pesquisa de Corretores" />
+					</f:facet>
+				</p:toolbar>
+							
+				<h:panelGrid columns="4"> 
+					<p:commandButton value="Novo" action="/pages/usuarioCadastro.xhtml?faces-redirect=true"/>	
+				</h:panelGrid>
+			
+				<p:dataTable id="tblUsuarios" emptyMessage="Nenhum registro encontrado!" value="#{usuarioBean.listaUsuarios}" 
+					filteredValue="#{usuarioBean.listaUsuariosFiltrados}" var="usuario"
+					rows="5" paginator="true">
+					
+						<f:facet name="header">
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="excel.png" />
+				                <p:dataExporter type="xls" target="tblUsuarios" fileName="usuarios" />
+				            </h:commandLink>
+				 
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="pdf.png" />
+				                <p:dataExporter type="pdf" target="tblUsuarios" fileName="usuarios" encoding="ISO-8859-1"/>
+				            </h:commandLink>
+        				</f:facet>
+					
+					
+					
+				        <p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Nome" filterBy="#{usuario.nome}" sortBy="#{usuario.nome}">
+				            <h:outputText value="#{usuario.nome}" />
+				        </p:column>
+				        <p:column headerText="CPF" style = "width:25%">
+				            <h:outputText  value="#{usuario.cpf}"/>
+				        </p:column>
+				        <p:column headerText="Opções" style = "width:20%" exportable="false">
+				            <p:button value="Excluir" outcome="/pages/usuarioCadastro.xhtml">
+				            	<f:param name="usucod" value="#{usuario.codigo}"/>
+							</p:button>				            
+				            <p:button value="Editar" outcome="/pages/usuarioCadastro.xhtml">
+				            	<f:param name="usucod" value="#{usuario.codigo}"/>
+				            </p:button>
+				        </p:column>
+				 
+				        <p:rowExpansion>
+				            <p:panelGrid  columns="1" columnClasses="label,value" style="width:300px">
+				                <h:outputText value="Código: #{usuario.codigo}"/>
+				                <h:outputText />
+				 
+				                <h:outputText value="R.G.: #{usuario.rg}" />
+				                <h:outputText />
+				 
+				                <h:outputText value="Creci: #{usuario.creci}" />
+				                <h:outputText/>
+				 
+				                <h:outputText value="CNPJ: #{usuario.cnpj}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Tipo Pessoa: #{usuario.tipo}" />
+				                <h:outputText/>
+				                  
+				                <h:outputText value="Email: #{usuario.email}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Telefone: #{usuario.telefoneResCom}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Celular: #{usuario.telefoneCel}" />
+				                <h:outputText/>
+				                
+
+				                <h:outputText value="Endereço: #{usuario.enderecoLogradouro}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Nº: #{usuario.enderecoNumero}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Complemento: #{usuario.enderecoComplemento}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Bairro: #{usuario.enderecoBairro}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Cidade: #{usuario.enderecoCidade}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="UF: #{usuario.enderecoEstado}" />
+				                <h:outputText/>
+				            </p:panelGrid>
+				        </p:rowExpansion>
+					
+					
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+
+</html>

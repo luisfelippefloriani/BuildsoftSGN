@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:insert name="metadata"></ui:insert>
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>HPio | SGN</title>
+	<h:outputStylesheet library="css" name="estilos.css"/>
+</h:head>
+<h:body>
+
+	<p:growl id="msgGlobal" sticky="true">
+	</p:growl>
+
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="80"
+			header="Carelli Propriedades" resizable="false"
+			closable="false" collapsible="false">
+			<h:outputText value=" Sistema Gestor de Negócios" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" size="47"  
+			resizable="true" closable="true" collapsible="true" >
+			<h:outputText value="(47) 96247838 - suporte@buildtec.com.br"/> 
+			<br></br>
+			<h:outputText value="Desenvolvido por Luís Felippe Floriani"  />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="250" header="Menu"
+			resizable="true" closable="true" collapsible="true">
+			<h:form id="frmMnPrincipal">
+				<p:panelMenu id="pnlMnPrincipal">
+					<p:submenu label="Arquivos">
+						<p:menuitem value="Autenticação" outcome="/pages/principal.xhtml" 
+						rendered="#{autenticacaoBean.usuarioLogado.tipo == null}"/>
+						<p:menuitem value="Principal" outcome="/pages/principal.xhtml" 
+						rendered="#{autenticacaoBean.usuarioLogado.tipo != null}"/>
+						<p:menuitem value="Sair" action="#{autenticacaoBean.sair}"
+						rendered="#{autenticacaoBean.usuarioLogado.tipo != null}"/>
+					</p:submenu>
+					<p:submenu label="Cadastros" rendered="#{autenticacaoBean.usuarioLogado.tipo != null}" >
+						<p:menuitem value="Empreendimentos"
+							outcome="/pages/empreendimentoPesquisa.xhtml" />
+						<p:menuitem value="Unidades"
+							outcome="/pages/unidadePesquisa.xhtml" />
+						<p:menuitem value="Corretores" rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}"
+							outcome="/pages/usuarioPesquisa.xhtml" />
+						<p:menuitem value="Investidores" 
+							outcome="/pages/investidorPesquisa.xhtml"/>
+					</p:submenu>
+					<p:submenu label="Vendas" rendered="#{autenticacaoBean.usuarioLogado.tipo != null}">
+						<p:menuitem value="Propostas"
+							outcome="/pages/propostaPesquisa.xhtml"/>
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<ui:insert name="conteudo" />
+		</p:layoutUnit>
+
+	</p:layout>
+
+</h:body>
+</html>

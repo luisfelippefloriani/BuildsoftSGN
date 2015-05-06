@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template = "/templates/modeloGeral.xhtml">
+		<ui:define name="conteudo">
+			<f:metadata>
+				<f:event listener="#{propostaBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+			<h:form>
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Pesquisa de Propostas" />
+					</f:facet>
+				</p:toolbar>
+				
+				<h:panelGrid columns="4">
+					<p:commandButton value="Novo" action="/pages/propostaCadastro.xhtml?faces-redirect=true">
+						<f:param name = "procod" value="Novo" />	
+					</p:commandButton>
+				</h:panelGrid>
+				
+				
+				<p:dataTable id="tblPropostas" emptyMessage="Nenhum registro encontrado!" value="#{propostaBean.listaPropostas}" 
+					filteredValue="#{propostaBean.listaPropostasFiltradas}" var="proposta"
+					rows="5" paginator="true" rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+					
+					<f:facet name="header">
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="excel.png" />
+				                <p:dataExporter type="xls" target="tblPropostas" fileName="propostas" />
+				            </h:commandLink>
+				 
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="pdf.png" />
+				                <p:dataExporter type="pdf" target="tblPropostas" fileName="propostas" encoding="ISO-8859-1"/>
+				            </h:commandLink>
+        				</f:facet>
+					
+					
+
+					<p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				         <p:column headerText="Corretor" filterBy="#{proposta.usuario.nome}">
+				            <h:outputText value="#{proposta.usuario.nome}"/>
+				        </p:column>
+				        <p:column headerText="Empreendimento" filterBy="#{proposta.empreendimento}">
+				            <h:outputText  value="#{proposta.empreendimento}"/>
+				        </p:column>
+				        <p:column headerText="Unidade" filterBy="#{proposta.unidade}">
+				            <h:outputText  value="#{proposta.unidade}"/>
+				        </p:column>
+				        <p:column headerText="Data Apresentação" filterBy="#{proposta.dataApresentacao}">
+				            <h:outputText  value="#{proposta.dataApresentacao}"/>
+				        </p:column>
+				        <p:column headerText="Opções">
+				            <p:button value="Excluir" outcome="/pages/propostaCadastro.xhtml">
+				            	<f:param name="procod" value="#{proposta.codigo}"/>
+				            	<f:param name="procod" value="Excluir"/>
+							</p:button>				            
+				        </p:column>
+				 
+				        <p:rowExpansion>
+				            <p:panelGrid columns="2" columnClasses="label,value" style="width:600px">
+				                
+				                <h:outputText value="Valor Entrada: R$ #{proposta.valorEntrada}" >
+				                	<f:convertNumber pattern="0.00"/>
+				                </h:outputText>
+				                
+				                <h:outputText value="Data Entrada: #{proposta.dataEntrada}" />
+				                	
+				                <h:outputText value="Valor Chaves: R$ #{proposta.valorChaves}" >
+				                	<f:convertNumber pattern="0.00"/>
+				                </h:outputText>
+				                
+				                <h:outputText value="Data Chaves: #{proposta.dataChaves}" />
+				                
+				                <h:outputText value="Valor Reforços: R$ #{proposta.valorReforco}" >
+				                	<f:convertNumber pattern="0.00"/>
+				                </h:outputText>
+				                
+				                <h:outputText value="Qtde Reforços: #{proposta.numeroReforco}" />
+				                
+				                <h:outputText value="Valor Parcelas:  R$ #{proposta.valorReforco}" >
+				                	<f:convertNumber pattern="0.00"/>
+				                </h:outputText>
+				                
+				                <h:outputText value="Qtde Parcelas: #{proposta.numeroParcela}" />
+				                
+				                <h:outputText value="Valor Final: R$ #{proposta.valorFinal}" >
+				                	<f:convertNumber pattern="0.00"/>
+				                </h:outputText>
+				                
+				            </p:panelGrid>
+				        </p:rowExpansion>
+					
+				        
+					
+					
+				</p:dataTable>
+				
+				
+			
+
+			</h:form>
+			</ui:define>
+	</ui:composition>
+
+</html>

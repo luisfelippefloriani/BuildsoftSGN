@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template = "/templates/modeloGeral.xhtml">
+		<ui:define name="conteudo">
+			<f:metadata>
+				<f:event listener="#{empreendimentoBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+			<h:form>
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Pesquisa de Empreendimentos" />
+					</f:facet>
+				</p:toolbar>
+				
+				<h:panelGrid columns="4">
+					<p:commandButton value="Novo" action="/pages/empreendimentoCadastro.xhtml?faces-redirect=true" 
+						rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+						<f:param name = "empcod" value="Novo"/>
+					</p:commandButton>
+				</h:panelGrid>
+			
+				<p:dataTable id="tblEmpreendimentos" emptyMessage="Nenhum registro encontrado!" value="#{empreendimentoBean.listaEmpreendimentos}" 
+					filteredValue="#{empreendimentoBean.listaEmpreendimentosFiltrados}" var="empreendimento"
+					rows="5" paginator="true">
+					
+						<f:facet name="header">
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="excel.png" />
+				                <p:dataExporter type="xls" target="tblEmpreendimentos" fileName="empreendimentos" />
+				            </h:commandLink>
+				 
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="pdf.png" />
+				                <p:dataExporter type="pdf" target="tblEmpreendimentos" fileName="empreendimentos" encoding="ISO-8859-1"/>
+				            </h:commandLink>
+        				</f:facet>
+
+					
+				        <p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Nome" filterBy="#{empreendimento.nome}" sortBy="#{empreendimento.nome}">
+				            <h:outputText value="#{empreendimento.nome}"/>
+				        </p:column>
+				        <p:column headerText="Data Início" style = "width:15%">
+				            <h:outputText  value="#{empreendimento.dataInicioObra}"/>
+				        </p:column>
+				        <p:column headerText="Data Conclusão" style = "width:15%">
+				            <h:outputText  value="#{empreendimento.dataConclusaoObra}"/>
+				        </p:column>
+				        <p:column headerText="Opções" style = "width:20%" exportable="false">
+				            <p:button value="Excluir" outcome="/pages/empreendimentoCadastro.xhtml"
+				            rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+				            	<f:param name="empcod" value="#{empreendimento.codigo}"/>
+							</p:button>				            
+				            <p:button value="Editar" outcome="/pages/empreendimentoCadastro.xhtml"
+				            rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+				            	<f:param name="empcod" value="#{empreendimento.codigo}"/>
+				            </p:button>
+				        </p:column>
+				 
+				 
+				
+				 
+				        <p:rowExpansion>
+				            <p:panelGrid columns="1" columnClasses="label,value" style="width:300px">
+				                <h:outputText value="Código: #{empreendimento.codigo}" />
+				                <h:outputText />
+				 
+				                <h:outputText value="Logradouro: #{empreendimento.enderecologradouro}" />
+				                <h:outputText />
+				 
+				                <h:outputText value="Número: #{empreendimento.enderecoNumero}" />
+				                <h:outputText/>
+				 
+				                <h:outputText value="Bairro: #{empreendimento.enderecoBairro}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Cidade: #{empreendimento.enderecoCidade}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="UF: #{empreendimento.enderecoEstado}" />
+				                <h:outputText/>
+				            </p:panelGrid>
+				        </p:rowExpansion>
+					
+					
+				</p:dataTable>
+			</h:form>
+			</ui:define>
+	</ui:composition>
+
+</html>

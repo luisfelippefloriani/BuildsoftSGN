@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name= "metadata">
+		<f:metadata>
+				<f:viewParam name="proacao" value="#{propostaBean.acao}"/>
+				<f:viewParam name="procod" value="#{propostaBean.codigo}"/>
+				<f:event listener="#{propostaBean.carregarCadastro}" type="preRenderView"/>
+				<f:event listener="#{unidadeBean.carregarPesquisa}" type="preRenderView"/>
+				<f:event listener="#{empreendimentoBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="frmProCad">
+			
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Busca de Unidades" />
+				</f:facet>
+			</p:toolbar>
+			
+			<p:dataTable emptyMessage="Nenhuma unidade apresentada!" value="#{unidadeBean.listaUnidades}" 
+					filteredValue="#{unidadeBean.listaUnidadesFiltrados}" var="unidade"
+					rows="1" paginator="false">
+					
+					<p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Número" filterBy="#{unidade.numeroUnidade}" sortBy="#{unidade.numeroUnidade}">
+				            <h:outputText value="#{unidade.numeroUnidade}"/>
+				        </p:column>
+				         <p:column headerText="Empreendimento" filterBy="#{unidade.empreendimento.nome}" style = "width:35%">
+				            <h:outputText value="#{unidade.empreendimento.nome}"/>
+				        </p:column>
+				        <p:column headerText="Status" filterBy="#{unidade.status}">
+				            <h:outputText  value="#{unidade.status}"/>
+				        </p:column>
+				        <p:column headerText="Preço">
+				            <h:outputText  value="#{unidade.valor}" sortBy="#{unidade.valor}"/>
+				        </p:column>
+			</p:dataTable>
+				
+			<br></br>
+			
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro de Propostas" />
+				</f:facet>
+			</p:toolbar>
+			
+			<br></br>
+
+			<h:panelGrid id = "pnlProCad1" columns="4">
+				<h:outputLabel value="Código:" />
+				<p:inputText maxlength="10" size="10" readonly="true" value="#{propostaBean.propostaCadastro.codigo}"/>		
+				
+				<p:outputLabel value="Data Apresentação:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "13" value="#{propostaBean.propostaCadastro.dataApresentacao}"/>
+        		
+        		<h:outputLabel value="Unidade:" />
+				<p:inputText maxlength="10" size="10" value="#{propostaBean.propostaCadastro.unidade}"/>
+				
+				<h:outputLabel value="Empreendimento:"/>
+				<p:inputText maxlength="25" size="30" value="#{propostaBean.propostaCadastro.empreendimento}"/>
+        	</h:panelGrid>
+        		       		
+        	<h:panelGrid id="pnlProCad2" columns="3">
+        		<p:outputLabel value="Investidor: (Dado Opcional)" />
+        		<p:inputText size="48" value="#{propostaBean.propostaCadastro.investidor}"/>
+        	</h:panelGrid>	
+        		
+        	<br></br>
+        		
+        	<h:panelGrid id = "pnlProCad3" columns="5">	
+        		<p:outputLabel value="Data Entrada:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "12" value="#{propostaBean.propostaCadastro.dataEntrada}"/>
+			
+				
+				<h:outputLabel value="Valor Entrada:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorEntrada}"/>
+				<p:commandButton value="somar"/>
+				
+				<p:outputLabel value="Data Chaves:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "12" value="#{propostaBean.propostaCadastro.dataChaves}"/>
+				
+				<h:outputLabel value="Valor Chaves:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorChaves}"/>
+				<p:commandButton value="somar"/>
+								
+				<h:outputLabel value="Qtde Reforços:" />
+				<p:inputText size="12" value="#{propostaBean.propostaCadastro.numeroReforco}"/>
+				
+				<h:outputLabel value="Valor Reforços:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorReforco}"/>
+				<p:commandButton value="somar"/>
+				
+				<h:outputLabel value="Qtde Parcelas:" />
+				<p:inputText size="12" value="#{propostaBean.propostaCadastro.numeroParcela}"/>
+				
+				<h:outputLabel value="Valor Parcelas:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorParcela}"/>
+				<p:commandButton value="somar"/>						
+										
+			</h:panelGrid>
+			
+			<br></br>
+			
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Resultado" />
+				</f:facet>
+			</p:toolbar>
+			
+			<p:dataTable emptyMessage="Nenhuma valor acrescido!">
+	
+					<p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Entrada">
+				            <h:outputText value=""/>
+				        </p:column>
+				        <p:column headerText="Chaves">
+				            <h:outputText value=""/>
+				        </p:column>
+				        <p:column headerText="Reforços">
+				            <h:outputText value=""/>
+				        </p:column>
+				        <p:column headerText="Parcelas">
+				            <h:outputText value=""/>
+				        </p:column>
+				        
+			</p:dataTable>
+			<br></br>
+			<h:outputLabel value="Valor Total:"/>
+			<br></br>
+			<br></br>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Voltar" />	 		
+				<p:commandButton value="Finalizar" oncomplete="PF('wvDlgFinProposta').show()" 
+					actionListener="#{propostaBean.carregarDadosProposta}"
+					update=":frmFinProposta:pnlDadosFinProposta"/>			
+			</h:panelGrid>
+
+
+		</h:form>
+		
+		
+		<p:dialog modal="true"  draggable="true" resizable="false"  closable="true" header= "Finalização da Proposta" 
+		widgetVar="wvDlgFinProposta" appendTo="@(body)">
+		<h:form id="frmFinProposta">
+		
+			<h:panelGrid id = "pnlDadosFinProposta" columns="2">
+				<h:outputText value="Corretor:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.usuario.nome}"/>
+				<h:outputText value="Data da Apresentação:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.dataApresentacao}"/>
+				<h:outputText value="Investidor:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.investidor}"/>
+				<h:outputText value="Unidade:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.unidade}"/>
+				<h:outputText value="Empreendimento:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.empreendimento}"/>
+				<h:outputText value="Entrada:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.valorEntrada}"/>
+				<h:outputText value="Data Entrada:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.dataEntrada}"/>
+				<h:outputText value="Chaves:"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.valorChaves}"/>
+				<h:outputText value="Qtde Reforços"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.numeroReforco}"/>
+				<h:outputText value="Reforços"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.valorReforco}"/>
+				<h:outputText value="Qtde Parcelas"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.numeroParcela}"/>
+				<h:outputText value="Parcelas"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.valorParcela}"/>
+				<h:outputText value="Valor Total"/>
+				<h:outputText value="#{propostaBean.propostaCadastro.valorFinal}"/>
+				
+			</h:panelGrid>
+			
+			
+			<h:panelGrid columns="2">
+				<p:commandButton value="Enviar" actionListener="#{propostaBean.salvar}" oncomplete="PF('wvDlgFinProposta').hide()"
+				update=":msgGlobal :frmProCad:pnlProCad1 :frmProCad:pnlProCad2 :frmProCad:pnlProCad3"/>
+				<p:commandButton value="Voltar" onclick="PF('wvDlgFinProposta').hide()"/>
+			</h:panelGrid>		
+		</h:form>
+		
+	</p:dialog>
+		
+		
+	
+		
+
+	</ui:define>
+</ui:composition>
+
+</html>
+	

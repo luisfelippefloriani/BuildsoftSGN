@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template = "/templates/modeloGeral.xhtml">
+		<ui:define name="conteudo">
+		<f:metadata>
+				<f:event listener="#{investidorBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+			<h:form>
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Pesquisa de Investidores" />
+					</f:facet>
+				</p:toolbar>
+							
+				<h:panelGrid columns="4"> 
+					<p:commandButton value="Novo" action="/pages/investidorCadastro.xhtml?faces-redirect=true"/>	
+				</h:panelGrid>
+			
+				<p:dataTable id="tblInvestidores" emptyMessage="Nenhum registro encontrado!" value="#{investidorBean.listaInvestidores}" 
+					filteredValue="#{investidorBean.listaInvestidoresFiltrados}" var="investidor"
+					rows="5" paginator="true"
+					rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+					
+					
+					<f:facet name="header">
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="excel.png" />
+				                <p:dataExporter type="xls" target="tblInvestidores" fileName="investidores" />
+				            </h:commandLink>
+				 
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="pdf.png" />
+				                <p:dataExporter type="pdf" target="tblInvestidores" fileName="investidores" encoding="ISO-8859-1"/>
+				            </h:commandLink>
+        				</f:facet>
+					
+				        <p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Nome" filterBy="#{investidor.nome}" sortBy="#{investidor.nome}">
+				            <h:outputText value="#{investidor.nome}" />
+				        </p:column>
+				        <p:column headerText="CPF" style = "width:25%">
+				            <h:outputText  value="#{investidor.cpf}"/>
+				        </p:column>
+				        <p:column headerText="Opções" style = "width:20%" exportable="false">
+				            <p:button value="Excluir" outcome="/pages/investidorCadastro.xhtml">
+				            	<f:param name="invcod" value="#{investidor.codigo}"/>
+							</p:button>				            
+				            <p:button value="Editar" outcome="/pages/investidorCadastro.xhtml">
+				            	<f:param name="invcod" value="#{investidor.codigo}"/>
+				            </p:button>
+				        </p:column>
+				 
+				        <p:rowExpansion>
+				            <p:panelGrid  columns="1" columnClasses="label,value" style="width:300px">
+				                <h:outputText value="Código: #{investidor.codigo}"/>
+				                <h:outputText />
+				                
+				                <h:outputText value="Tipo Pessoa: #{investidor.tipoPessoa}" />
+				                <h:outputText/>
+				 
+				 				<h:outputText value="Ramo Profissional: #{investidor.ramoProfissional}" />
+				                <h:outputText/>
+				 
+				                <h:outputText value="R.G.: #{investidor.rg}" />
+				                <h:outputText />
+				 
+				                <h:outputText value="CNPJ: #{investidor.cnpj}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="IE: #{investidor.ie}" />
+				                <h:outputText/>
+				                                 
+				                <h:outputText value="Email: #{investidor.email}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Telefone: #{investidor.telefoneResidencial}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Celular: #{investidor.telefoneCelular}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Endereço: #{investidor.enderecoLogradouro}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Nº: #{investidor.enderecoNumero}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Complemento: #{investidor.enderecoComplemento}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Bairro: #{investidor.enderecoBairro}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="Cidade: #{investidor.enderecoCidade}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="UF: #{investidor.enderecoEstado}" />
+				                <h:outputText/>
+				                
+				                <h:outputText value="País: #{investidor.enderecoPais}" />
+				                <h:outputText/>
+				                
+				                
+				                
+				            </p:panelGrid>
+				        </p:rowExpansion>
+					
+					
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+
+</html>

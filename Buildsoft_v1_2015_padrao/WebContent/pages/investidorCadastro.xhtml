@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{investidorBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmInvCad">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro de Investidores" />
+				</f:facet>
+			</p:toolbar>
+
+			<h:panelGrid id="pnlInvCad1" columns="2">
+				<h:outputLabel value="Código" />
+				<p:inputText maxlength="10" size="10" readonly="true"
+					value="#{investidorBean.investidorCadastro.codigo}" />
+
+				<h:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="70"
+					value="#{investidorBean.investidorCadastro.nome}" />
+
+			</h:panelGrid>
+
+			<br></br>
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Tipo:" />
+				<p:selectOneMenu value="#{investidorBean.investidorCadastro.tipoPessoa}" >
+					<f:selectItem itemValue="" itemLabel="Selecione um tipo de pessoa:"/>
+					<f:selectItem itemValue="Física" itemLabel="Física"/>
+					<f:selectItem itemValue="Jurídica" itemLabel="Jurídica"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			
+			
+			
+
+			<h:panelGrid id="pnlInvCad2" columns="2">
+				<h:outputLabel value="R.G.:" />
+				<p:inputText maxlength="50" size="25"
+					value="#{investidorBean.investidorCadastro.rg}" />
+
+				<p:outputLabel value="CPF:" />
+				<p:inputMask mask="999.999.999-99" size="10"
+					value="#{investidorBean.investidorCadastro.cpf}" />
+
+				<h:outputLabel value="CNPJ:" />
+				<p:inputText maxlength="20" size="25"
+					value="#{investidorBean.investidorCadastro.cnpj}" />
+
+				<h:outputLabel value="I.E.:" />
+				<p:inputText maxlength="20" size="25"
+					value="#{investidorBean.investidorCadastro.ie}" />
+			</h:panelGrid>
+
+			<br></br>
+			
+			<h:panelGrid id="pnlInvCad3" columns="2">
+				<h:outputLabel value="Ramo Profissional:" />
+				<p:inputText maxlength="50" size="35"
+					value="#{investidorBean.investidorCadastro.ramoProfissional}" />
+			</h:panelGrid>
+
+			
+			<br></br>
+
+			<h:panelGrid id="pnlInvCad4" columns="2">
+				<h:outputLabel value="Endereço:" />
+				<p:inputText maxlength="50" size="63"
+					value="#{investidorBean.investidorCadastro.enderecoLogradouro}" />
+				<h:outputLabel value="Número:" />
+				<p:inputText maxlength="50" size="08"
+					value="#{investidorBean.investidorCadastro.enderecoNumero}" />
+				<h:outputLabel value="Complemento:" />
+				<p:inputText maxlength="50" size="15"
+					value="#{investidorBean.investidorCadastro.enderecoComplemento}" />
+				<h:outputLabel value="Bairro:" />
+				<p:inputText maxlength="50" size="25"
+					value="#{investidorBean.investidorCadastro.enderecoBairro}" />
+				<h:outputLabel value="Cidade:" />
+				<p:inputText maxlength="50" size="25"
+					value="#{investidorBean.investidorCadastro.enderecoCidade}" />
+				<h:outputLabel value="UF:" />
+				<p:inputText maxlength="50" size="2"
+					value="#{investidorBean.investidorCadastro.enderecoEstado}" />
+				<h:outputLabel value="Email" />
+				<p:inputText maxlength="50" size="63"
+					value="#{investidorBean.investidorCadastro.email}" />
+				<h:outputLabel value="Telefone:" />
+				<p:inputText maxlength="50" size="15"
+					value="#{investidorBean.investidorCadastro.telefoneResidencial}" />
+				<h:outputLabel value="Celular:" />
+				<p:inputText maxlength="50" size="15"
+					value="#{investidorBean.investidorCadastro.telefoneCelular}" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo" />
+				<p:commandButton value="Salvar"
+					actionListener="#{investidorBean.salvar}"
+					update=":msgGlobal :frmInvCad:pnlInvCad1 :frmInvCad:pnlInvCad2 :frmInvCad:pnlInvCad3 :frmInvCad:pnlInvCad4" />
+				<p:button value="Voltar" outcome="/pages/investidorPesquisa.xhtml" />
+
+				<p:commandButton value="Excluir"
+					actionListener="#{investidorBean.excluir}" update=":msgGlobal" />
+				<p:commandButton value="Editar"
+					actionListener="#{investidorBean.editar}" update=":msgGlobal" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

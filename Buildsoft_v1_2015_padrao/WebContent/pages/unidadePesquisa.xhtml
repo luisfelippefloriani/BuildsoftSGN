@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template = "/templates/modeloGeral.xhtml">
+		<ui:define name="conteudo">
+			<f:metadata>
+				<f:event listener="#{unidadeBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+			<h:form>
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="Pesquisa de Unidades" />
+					</f:facet>
+				</p:toolbar>
+				
+				<h:panelGrid columns="4">
+					<p:commandButton value="Novo" action="/pages/unidadeCadastro.xhtml?faces-redirect=true"
+					rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+						<f:param name = "unicod" value="Novo"/>
+					</p:commandButton>
+				</h:panelGrid>
+				
+				
+				
+		
+				<p:dataTable id="tblUnidades" emptyMessage="Nenhum registro encontrado!" value="#{unidadeBean.listaUnidades}" 
+					filteredValue="#{unidadeBean.listaUnidadesFiltrados}" var="unidade"
+					rows="5" paginator="true">
+					
+						<f:facet name="header">
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="excel.png" />
+				                <p:dataExporter type="xls" target="tblUnidades" fileName="unidades" />
+				            </h:commandLink>
+				 
+				            <h:commandLink>
+				                <p:graphicImage library="images" name="pdf.png" />
+				                <p:dataExporter type="pdf" target="tblUnidades" fileName="unidades" encoding="ISO-8859-1"/>
+				            </h:commandLink>
+        				</f:facet>
+					
+							
+				        <p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Número" filterBy="#{unidade.numeroUnidade}" sortBy="#{unidade.numeroUnidade}">
+				            <h:outputText value="#{unidade.numeroUnidade}"/>
+				        </p:column>
+				         <p:column headerText="Empreendimento" filterBy="#{unidade.empreendimento.nome}" style = "width:35%">
+				            <h:outputText value="#{unidade.empreendimento.nome}"/>
+				        </p:column>
+				        <p:column headerText="Status" filterBy="#{unidade.status}">
+				            <h:outputText  value="#{unidade.status}"/>
+				        </p:column>
+				        <p:column headerText="Preço">
+				            <h:outputText  value="R$ #{unidade.valor}" sortBy=" R$ #{unidade.valor}">
+				            	<f:convertNumber pattern="0.00"/>
+				            </h:outputText>
+				        </p:column>
+				        <p:column headerText="Opções" style = "width:20%" exportable="false">
+				            <p:button value="Excluir" outcome="/pages/unidadeCadastro.xhtml"
+				            rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+				            	<f:param name="unicod" value="#{unidade.codigo}"/>
+				            	<f:param name="unicod" value="Excluir"/>
+							</p:button>				            
+				            <p:button value="Editar" outcome="/pages/unidadeCadastro.xhtml"
+				            rendered="#{autenticacaoBean.usuarioLogado.tipo != 'Corretor'}">
+				            	<f:param name="unicod" value="#{unidade.codigo}"/>
+				            	<f:param name="unicod" value="Editar"/>
+				            </p:button>
+				        </p:column>
+				 
+				        <p:rowExpansion>
+				            <p:panelGrid columns="1" columnClasses="label,value" style="width:300px">
+				                <h:outputText value="Código: #{unidade.codigo}" />
+				                <h:outputText />
+				                <h:outputText value="Cartório: #{unidade.cartorio}" />
+				                <h:outputText />
+				                <h:outputText value="Matrícula: #{unidade.matricula}" />
+				                <h:outputText />
+				                <h:outputText value="Entrega: #{unidade.dataEntrega}"/>
+				       			<h:outputText /> 
+				            </p:panelGrid>
+				        </p:rowExpansion>
+					
+					
+				</p:dataTable>
+			</h:form>
+			</ui:define>
+	</ui:composition>
+
+</html>

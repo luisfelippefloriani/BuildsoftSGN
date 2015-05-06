@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{usuarioBean.carregarCadastro}" type="preRenderView"/>
+		</f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="frmUsuCad">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro de Corretores" />
+				</f:facet>
+			</p:toolbar>
+
+			<h:panelGrid id="pnlUsuCad1" columns="2">
+				<h:outputLabel value="Código"/>
+				<p:inputText maxlength="10" size="10" readonly="true" value ="#{usuarioBean.usuarioCadastro.codigo}" />
+
+				<h:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="70" value = "#{usuarioBean.usuarioCadastro.nome}"/>
+
+				<p:outputLabel value="CPF:" />
+				<p:inputMask mask="999.999.999-99" size="10" value = "#{usuarioBean.usuarioCadastro.cpf}" readonly="false"/>
+
+				<p:outputLabel value="Senha:" />
+				<p:password maxlength="08" size="10" value = "#{usuarioBean.usuarioCadastro.senha}" redisplay="false" readonly="false"/>
+			</h:panelGrid>
+
+			<br></br>
+
+			<h:panelGrid id = "pnlUsuCad2" columns="2">
+				<h:outputLabel value="R.G.:" />
+				<p:inputText maxlength="50" size="25" value = "#{usuarioBean.usuarioCadastro.rg}"/>
+
+				<h:outputLabel value="Creci:" />
+				<p:inputText maxlength="50" size="25" value = "#{usuarioBean.usuarioCadastro.creci}"/>
+
+				<h:outputLabel value="CNPJ:" />
+				<p:inputText maxlength="50" size="25" value = "#{usuarioBean.usuarioCadastro.cnpj}"/>
+			</h:panelGrid>
+			
+				<br></br>
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Tipo:" />
+				<p:selectOneMenu value="#{usuarioBean.usuarioCadastro.tipo}" >
+					<f:selectItem itemValue="" itemLabel="Selecione uma função:"/>
+					<f:selectItem itemValue="Administrador" itemLabel="Adminstrador"/>
+					<f:selectItem itemValue="Corretor" itemLabel="Corretor"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+				
+						
+			<br></br>
+
+			<h:panelGrid id = "pnlUsuCad3" columns="2">
+				<h:outputLabel value="Endereço:" />
+				<p:inputText maxlength="50" size="63" value="#{usuarioBean.usuarioCadastro.enderecoLogradouro}"/>
+				<h:outputLabel value="Número:" />
+				<p:inputText maxlength="50" size="08" value="#{usuarioBean.usuarioCadastro.enderecoNumero}"/>
+				<h:outputLabel value="Complemento:" />
+				<p:inputText maxlength="50" size="15" value="#{usuarioBean.usuarioCadastro.enderecoComplemento}"/>
+				<h:outputLabel value="Bairro:" />
+				<p:inputText maxlength="50" size="25" value="#{usuarioBean.usuarioCadastro.enderecoBairro}"/>
+				<h:outputLabel value="Cidade:" />
+				<p:inputText maxlength="50" size="25" value="#{usuarioBean.usuarioCadastro.enderecoCidade}"/>
+				<h:outputLabel value="UF:" />
+				<p:inputText maxlength="50" size="2" value="#{usuarioBean.usuarioCadastro.enderecoEstado}"/>
+				<h:outputLabel value="Email" />
+				<p:inputText maxlength="50" size="63" value="#{usuarioBean.usuarioCadastro.email}"/>
+				<h:outputLabel value="Telefone:" />
+				<p:inputText maxlength="50" size="15" value="#{usuarioBean.usuarioCadastro.telefoneResCom}"/>
+				<h:outputLabel value="Celular:" />
+				<p:inputText maxlength="50" size="15" value="#{usuarioBean.usuarioCadastro.telefoneCel}"/>
+			</h:panelGrid>
+
+		<h:panelGrid columns="5">
+				<p:commandButton value="Novo" />
+				<p:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}" update=":msgGlobal :frmUsuCad:pnlUsuCad1 :frmUsuCad:pnlUsuCad2 :frmUsuCad:pnlUsuCad3" />
+				<p:button value="Voltar" outcome="/pages/usuarioPesquisa.xhtml" />
+				
+				<p:commandButton value="Excluir" actionListener="#{usuarioBean.excluir}" update=":msgGlobal"/>
+				<p:commandButton value="Editar" actionListener="#{usuarioBean.editar}" update=":msgGlobal" />
+				
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

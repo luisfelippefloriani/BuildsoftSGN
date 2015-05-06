@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name= "metadata">
+		<f:metadata>
+				<f:viewParam name="proacao" value="#{propostaBean.acao}"/>
+				<f:viewParam name="procod" value="#{propostaBean.codigo}"/>
+				<f:event listener="#{propostaBean.carregarCadastro}" type="preRenderView"/>
+				<f:event listener="#{unidadeBean.carregarPesquisa}" type="preRenderView"/>
+				<f:event listener="#{empreendimentoBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="frmProCad">
+			
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Busca de Unidades" />
+				</f:facet>
+			</p:toolbar>
+			
+			<p:dataTable emptyMessage="Nenhuma unidade apresentada!" value="#{unidadeBean.listaUnidades}" 
+					filteredValue="#{unidadeBean.listaUnidadesFiltrados}" var="unidade"
+					rows="1" paginator="false">
+					
+					<p:column style="width:16px">
+				            <p:rowToggler />
+				        </p:column>
+				        <p:column headerText="Número" filterBy="#{unidade.numeroUnidade}" sortBy="#{unidade.numeroUnidade}">
+				            <h:outputText value="#{unidade.numeroUnidade}"/>
+				        </p:column>
+				         <p:column headerText="Empreendimento" filterBy="#{unidade.empreendimento.nome}" style = "width:35%">
+				            <h:outputText value="#{unidade.empreendimento.nome}"/>
+				        </p:column>
+				        <p:column headerText="Status" filterBy="#{unidade.status}">
+				            <h:outputText  value="#{unidade.status}"/>
+				        </p:column>
+				        <p:column headerText="Preço">
+				            <h:outputText  value="#{unidade.valor}" sortBy="#{unidade.valor}">
+				        	</h:outputText>
+				        </p:column>
+			</p:dataTable>
+				
+			<br></br>
+			
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro de Propostas" />
+				</f:facet>
+			</p:toolbar>
+			
+			<br></br>
+
+			<h:panelGrid id = "pnlProCad1" columns="4">
+				<h:outputLabel value="Código:" />
+				<p:inputText maxlength="10" size="10" readonly="true" value="#{propostaBean.propostaCadastro.codigo}"/>		
+				
+				<p:outputLabel value="Data Apresentação:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "13" value="#{propostaBean.propostaCadastro.dataApresentacao}"/>
+        		
+        		<h:outputLabel value="Unidade:" />
+				<p:inputText maxlength="10" size="10" value="#{propostaBean.propostaCadastro.unidade}"/>
+				
+				<h:outputLabel value="Empreendimento:"/>
+				<p:inputText maxlength="25" size="30" value="#{propostaBean.propostaCadastro.empreendimento}"/>
+        	</h:panelGrid>
+        		       		
+        	<h:panelGrid id="pnlProCad2" columns="3">
+        		<p:outputLabel value="Investidor: (Dado Opcional)" />
+        		<p:inputText size="48" value="#{propostaBean.propostaCadastro.investidor}"/>
+        	</h:panelGrid>	
+        		
+        	<br></br>
+        		
+        	<h:panelGrid id = "pnlProCad3" columns="4">	
+        		<p:outputLabel value="Data Entrada:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "12" value="#{propostaBean.propostaCadastro.dataEntrada}"/>
+			
+				
+				<h:outputLabel value="Valor Entrada:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorEntrada}" converterMessage="Informe um valor válido para o campo Preço">
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+				
+				
+				<p:outputLabel value="Data Chaves:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "12" value="#{propostaBean.propostaCadastro.dataChaves}"/>
+				
+				<h:outputLabel value="Valor Chaves:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorChaves}" converterMessage="Informe um valor válido para o campo Preço">
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+				
+				
+								
+				<h:outputLabel value="Qtde Reforços:" />
+				<p:inputText size="12" value="#{propostaBean.propostaCadastro.numeroReforco}" converterMessage="Informe um valor válido para o campo Preço">
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+				
+				<h:outputLabel value="Valor Reforços:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorReforco}" converterMessage="Informe um valor válido para o campo Valor dos Reforços">
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+				
+
+				
+				<h:outputLabel value="Qtde Parcelas:" />
+				<p:inputText size="12" value="#{propostaBean.propostaCadastro.numeroParcela}"/>
+				
+				<h:outputLabel value="Valor Parcelas:" />
+				<p:inputText size="16" value="#{propostaBean.propostaCadastro.valorParcela}" converterMessage="Informe um valor válido para o campo Valor das Parcelas">
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+				
+
+				<h:outputLabel value="Valor Total:"/>
+				<p:inputText size="12" value="#{propostaBean.propostaCadastro.valorFinal}" converterMessage="Informe um valor válido para o campo Valor das Parcelas">	
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+				
+																
+			</h:panelGrid>
+			
+			<br></br>
+			<br></br>
+			
+			<br></br>
+	
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Salvar" actionListener="#{propostaBean.salvar}" 
+				update=":msgGlobal :frmProCad:pnlProCad1 :frmProCad:pnlProCad2 :frmProCad:pnlProCad3" />			
+				<p:button value="Nova" outcome="/pages/propostaCadastro.xhtml"/>
+				<p:button value="Voltar" outcome="/pages/propostaPesquisa.xhtml"/>
+				<p:commandButton value="Excluir" actionListener="#{propostaBean.excluir}" update=":msgGlobal :frmProCad:pnlProCad1 :frmProCad:pnlProCad2 :frmProCad:pnlProCad3"/>
+			</h:panelGrid>
+					
+
+			</h:form>
+		
+	</ui:define>
+</ui:composition>
+
+</html>
+	

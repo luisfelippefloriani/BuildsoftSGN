@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name= "metadata">
+		<f:metadata>
+				<f:viewParam name="empacao" value="#{empreendimentoBean.acao}"/>
+				<f:viewParam name="empcod" value="#{empreendimentoBean.codigo}"/>
+				<f:event listener="#{empreendimentoBean.carregarCadastro()}" type="preRenderView"/>
+			</f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="frmEmpCad">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro de Empreendimento" />
+				</f:facet>
+			</p:toolbar>
+
+			<h:panelGrid id = "pnlEmpCad1" columns="2">
+				<h:outputLabel value="Código" />
+				<p:inputText maxlength="10" size="10" readonly="true" value="#{empreendimentoBean.empreendimentoCadastro.codigo}"/>
+				<h:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="50" value="#{empreendimentoBean.empreendimentoCadastro.nome}"
+				readonly="#{empreendimentoBean.acao == 'Excluir'}"/>
+				
+			</h:panelGrid>
+
+			<br />
+
+			<h:panelGrid id = "pnlEmpCad2" columns="2">
+				<h:outputLabel value="Endereço:" />
+				<p:inputText maxlength="50" size="47" value="#{empreendimentoBean.empreendimentoCadastro.enderecologradouro}"/>
+				<h:outputLabel value="Número:" />
+				<p:inputText maxlength="50" size="08" value="#{empreendimentoBean.empreendimentoCadastro.enderecoNumero}"/>
+				<h:outputLabel value="Bairro:" />
+				<p:inputText maxlength="50" size="25" value="#{empreendimentoBean.empreendimentoCadastro.enderecoBairro}"/>
+				<h:outputLabel value="Cidade:" />
+				<p:inputText maxlength="50" size="25" value="#{empreendimentoBean.empreendimentoCadastro.enderecoCidade}"/>
+				<h:outputLabel value="UF:" />
+				<p:inputText maxlength="50" size="2" value="#{empreendimentoBean.empreendimentoCadastro.enderecoEstado}"/>
+			</h:panelGrid>
+
+			<br />
+			
+			<h:panelGrid id = "pnlEmpCad3" columns="2">
+				<p:outputLabel value="Data Início Obra" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "15" value="#{empreendimentoBean.empreendimentoCadastro.dataInicioObra}"/>
+        		<p:outputLabel value="Data Conclusão Obra" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "15" value="#{empreendimentoBean.empreendimentoCadastro.dataConclusaoObra}"/>		
+			</h:panelGrid>
+			
+			<h:panelGrid id="pnlEmpCad4">
+				<h>Descrição:</h>
+				<p:inputTextarea rows="5" cols="59" counter="display"
+					maxlength="255" counterTemplate="{0} caracteres restantes."
+					autoResize="false" value="#{empreendimentoBean.empreendimentoCadastro.descricao}"/>
+				<h:outputText id="display" />
+			</h:panelGrid>
+
+			<br></br>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo" actionListener="#{empreendimentoBean.novo}" update=":msgGlobal :frmEmpCad:pnlEmpCad1 :frmEmpCad:pnlEmpCad2 :frmEmpCad:pnlEmpCad3 :frmEmpCad:pnlEmpCad4"
+					/>
+				<p:commandButton value="Salvar" actionListener="#{empreendimentoBean.salvar}" update=":msgGlobal :frmEmpCad:pnlEmpCad1 :frmEmpCad:pnlEmpCad2 :frmEmpCad:pnlEmpCad3 :frmEmpCad:pnlEmpCad4"
+					/>			
+				<p:commandButton value="Excluir" actionListener="#{empreendimentoBean.excluir}" update=":msgGlobal"
+					/>
+				<p:commandButton value="Editar" actionListener="#{empreendimentoBean.editar}" update=":msgGlobal" 
+					/>
+				<p:button value="Voltar" outcome="/pages/empreendimentoPesquisa.xhtml"	
+					/>
+			</h:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

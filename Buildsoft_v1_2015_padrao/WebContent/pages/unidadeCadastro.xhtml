@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name= "metadata">
+		<f:metadata>
+				<f:viewParam name="uniacao" value="#{unidadeBean.acao}"/>
+				<f:viewParam name="unicod" value="#{unidadeBean.codigo}"/>
+				<f:event listener="#{unidadeBean.carregarCadastro()}" type="preRenderView"/>
+			</f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="frmUniCad">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro de Unidades" />
+				</f:facet>
+			</p:toolbar>
+
+			<h:panelGrid id = "pnlUniCad1" columns="2">
+				<h:outputLabel value="Código" />
+				<p:inputText maxlength="10" size="10" readonly="true" value="#{unidadeBean.unidadeCadastro.codigo}"/>
+				<h:outputLabel value="Número:" />
+				<p:inputText maxlength="50" size="10" value="#{unidadeBean.unidadeCadastro.numeroUnidade}"
+				readonly="#{unidadeBean.acao == 'Excluir'}"/>				
+			</h:panelGrid>
+			<p:separator></p:separator>
+			<br />
+			<h:panelGrid id = "pnlUniCad2" columns="2">			
+				<p:outputLabel value="Data Entrega:" />
+        		<p:calendar pattern="dd-MM-yyyy" mask="true" size = "13" value="#{unidadeBean.unidadeCadastro.dataEntrega}"/>	
+			</h:panelGrid>
+			
+			<br />
+			
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Empreendimento: ">
+					<p:selectOneMenu value="#{unidadeBean.unidadeCadastro.empreendimento}" converter="empreendimentoConverter">
+						<f:selectItem itemLabel="Selecione um Empreendimento" itemValue=""/>
+						<f:selectItems value="#{unidadeBean.listaEmpreendimentos}" var="empreendimento" itemValue="#{empreendimento}" itemLabel="#{empreendimento.nome}"/>
+					<f:validateBean/>
+					</p:selectOneMenu>
+				</p:outputLabel>
+			</h:panelGrid>
+			
+			<br />
+			
+			<h:panelGrid id = "pnlUniCad3" columns="2">
+				<h:outputLabel value="Cartório:" />
+				<p:inputText maxlength="50" size="33" value="#{unidadeBean.unidadeCadastro.cartorio}"/>
+				<h:outputLabel value="Matrícula:" />
+				<p:inputText maxlength="50" size="33" value="#{unidadeBean.unidadeCadastro.matricula}"/>
+			</h:panelGrid>
+			
+			<br />
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Situação:" />
+				<p:selectOneMenu value="#{unidadeBean.unidadeCadastro.status}" >
+					<f:selectItem itemValue="" itemLabel="Selecione um status:"/>
+					<f:selectItem itemValue="Vendido" itemLabel="Vendido"/>
+					<f:selectItem itemValue="Disponível" itemLabel="Disponível"/>
+					<f:selectItem itemValue="Negociando" itemLabel="Negociando"/>
+				</p:selectOneMenu>
+				<h:outputLabel value="Preço:" />
+				<p:inputText size="18" value="#{unidadeBean.unidadeCadastro.valor}" readonly="#{empreendimentoBean.acao == 'Excluir'}"
+					converterMessage="Informe um valor válido para o campo Preço">
+					<f:convertNumber />
+					<f:validateBean/>
+				</p:inputText>
+			</h:panelGrid>
+			
+			<br />
+			
+			<h:panelGrid >
+				<h>Descrição:</h>
+				<p:inputTextarea rows="8" cols="70" counter="display"
+					maxlength="255" counterTemplate="{0} caracteres restantes."
+					autoResize="false" value="#{unidadeBean.unidadeCadastro.descricao}"/>
+				<h:outputText id="display" />
+			</h:panelGrid>
+
+			<br></br>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo" actionListener="#{unidadeBean.novo}" update=":msgGlobal :frmUniCad:pnlUniCad1 :frmUniCad:pnlUniCad2 :frmUniCad:pnlUniCad3" />	 		
+				<p:commandButton value="Salvar" actionListener="#{unidadeBean.salvar}" update=":msgGlobal :frmUniCad:pnlUniCad1 :frmUniCad:pnlUniCad2 :frmUniCad:pnlUniCad3" />			
+				<p:commandButton value="Excluir" actionListener="#{unidadeBean.excluir}" update=":msgGlobal"/>
+				<p:commandButton value="Editar" actionListener="#{unidadeBean.editar}" update=":msgGlobal"/>
+				<p:button value="Voltar" outcome="/pages/unidadePesquisa.xhtml"/>
+			</h:panelGrid>
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>
+	
